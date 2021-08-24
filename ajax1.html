@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax Homework 1</title>
+</head>
+<body>
+    <button class="btn">Click to See Users Information</button>
+    <br />
+    <div class="div"></div>
+
+    <script>
+        const btn = document.querySelector(".btn");
+
+        btn.addEventListener("click", loadInfo);
+
+        function loadInfo() {
+            const xhr = new XMLHttpRequest;
+            xhr.open("GET", "https://jsonplaceholder.typicode.com/users");
+
+            xhr.onload = function() {
+                const users = JSON.parse(xhr.response);
+
+                const div = document.querySelector(".div");
+
+                let output = "";
+                for (let user of users) {
+                    output += `
+                        <div class="user">
+                            <ul>
+                                <li>ID: ${user.id} </li>
+                                <li>Login: ${user.name} </li>
+                                <li>Email: ${user.email} </li>
+                                <li>Address: ${user.address.street} ${user.address.suite} ${user.address.city} ${user.address.zipcode} </li>
+                                <li>Phone: ${user.phone} </li>
+                                <li>Website: ${user.website} </li>
+                                <li>Company: ${user.company.name} ${user.company.catchPhrase} ${user.company.bs} </li>
+                            </ul>
+                        </div>
+                    `;
+                }
+                div.innerHTML = output;
+            }
+
+            xhr.send();
+        }
+
+    </script>
+</body>
+</html>
